@@ -2,7 +2,6 @@
 import java.awt.CardLayout;
 import java.awt.Dimension;
 import java.awt.Font;
-
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -12,9 +11,7 @@ import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
-
 import com.formdev.flatlaf.themes.FlatMacLightLaf;
-
 import net.miginfocom.swing.MigLayout;
 
 public class CounterAppTugas3 {

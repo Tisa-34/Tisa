@@ -1,21 +1,14 @@
-//import java.awt.Button;
-import java.awt.CardLayout;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Color;
-
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-//import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
-
-// CHANGE ▼ (import dashed border)
-import javax.swing.BorderFactory;
 
 import com.formdev.flatlaf.themes.FlatMacLightLaf;
 import net.miginfocom.swing.MigLayout;
@@ -24,6 +17,7 @@ public class CounterAppTugasGPT {
     private static int nilaiCounter = 0;
 
     public static void main(String[] args) {
+
         try {
             UIManager.setLookAndFeel(new FlatMacLightLaf());
         } catch (UnsupportedLookAndFeelException e) {
@@ -37,136 +31,71 @@ public class CounterAppTugasGPT {
             frame.setPreferredSize(new Dimension(400, 300));
             frame.setMinimumSize(new Dimension(200, 150));
 
-            JPanel mainPanel = new JPanel(new CardLayout());
+            // PANEL UTAMA (3 baris seperti gambar)
+            JPanel panelMain = new JPanel(
+                    new MigLayout("fill, wrap1", "[grow, fill]", "[grow][grow][grow]"));
 
-            JPanel panelCounter = new JPanel(new MigLayout("fill, wrap1", "[grow, center]", "[grow][grow]"));
+            // ====================================
+            // 1) PANEL ATAS — LABEL COUNTER
+            // ====================================
+            JPanel panelCounterArea = new JPanel(new MigLayout("center"));
+            panelCounterArea.setBorder(javax.swing.BorderFactory.createDashedBorder(Color.RED));
 
-            // CHANGE: LineBorder → dashedBorder
-            panelCounter.setBorder(
-                BorderFactory.createDashedBorder(Color.GREEN, 2, 8, 4, true) // CHANGE
-            );
-
-            JLabel labelCounter = new JLabel(nilaiCounter + "");
+            JLabel labelCounter = new JLabel(String.valueOf(nilaiCounter));
             labelCounter.setFont(new Font("Arial", Font.BOLD, 50));
 
-            // CHANGE: LineBorder → dashed
-            labelCounter.setBorder(
-                BorderFactory.createDashedBorder(Color.RED, 1, 6, 3, true) // CHANGE
-            );
+            panelCounterArea.add(labelCounter);
 
-            panelCounter.add(labelCounter, "center");
+            // ====================================
+            // 2) PANEL TENGAH — TOMBOL - dan +
+            // ====================================
+            JPanel panelButtons = new JPanel(new MigLayout("insets 0, center", "[]20[]", "[]"));
+            panelButtons.setBorder(javax.swing.BorderFactory.createDashedBorder(Color.RED));
 
-            JPanel panelButtons = new JPanel(new MigLayout("insets 0", "[]10[]", "[]"));
+            JButton buttonMinus = new JButton("-");
+            buttonMinus.setFont(new Font("Arial", Font.BOLD, 25));
+            panelButtons.add(buttonMinus);
 
-            // CHANGE: LineBorder → dashed
-            panelButtons.setBorder(
-                BorderFactory.createDashedBorder(Color.PINK, 1, 6, 3, true) // CHANGE
-            );
+            JButton buttonPlus = new JButton("+");
+            buttonPlus.setFont(new Font("Arial", Font.BOLD, 25));
+            panelButtons.add(buttonPlus);
 
-            JButton buttonAdd1 = new JButton("-");
-            buttonAdd1.setFont(new Font("Arial", Font.BOLD, 25));
-
-            // CHANGE: LineBorder → dashed
-            buttonAdd1.setBorder(
-                BorderFactory.createDashedBorder(Color.DARK_GRAY, 2, 6, 3, true) // CHANGE
-            );
-
-            panelButtons.add(buttonAdd1);
-
-            buttonAdd1.addActionListener(e -> {
+            // ACTION
+            buttonMinus.addActionListener(e -> {
                 nilaiCounter--;
-                labelCounter.setText(nilaiCounter + "");
+                labelCounter.setText(String.valueOf(nilaiCounter));
             });
 
-            JButton buttonAdd = new JButton("+");
-            buttonAdd.setFont(new Font("Arial", Font.BOLD, 25));
-
-            // CHANGE: LineBorder → dashed
-            buttonAdd.setBorder(
-                BorderFactory.createDashedBorder(Color.DARK_GRAY, 2, 6, 3, true) // CHANGE
-            );
-
-            panelButtons.add(buttonAdd);
-
-            buttonAdd.addActionListener(e -> {
+            buttonPlus.addActionListener(e -> {
                 nilaiCounter++;
-                labelCounter.setText(nilaiCounter + "");
+                labelCounter.setText(String.valueOf(nilaiCounter));
             });
 
-            panelCounter.add(panelButtons, "center");
+            // ====================================
+            // 3) PANEL BAWAH — TOMBOL NEXT >
+            // ====================================
+            JPanel panelNextArea = new JPanel(new MigLayout("right"));
+            panelNextArea.setBorder(javax.swing.BorderFactory.createDashedBorder(Color.RED));
 
             JButton buttonNext = new JButton(">");
-            buttonNext.setFont(new Font("Arial", Font.BOLD, 25));
+            buttonNext.setFont(new Font("Arial", Font.BOLD, 20));
 
-            // CHANGE: LineBorder → dashed
-            buttonNext.setBorder(
-                BorderFactory.createDashedBorder(Color.BLUE, 2, 8, 4, true) // CHANGE
-            );
+            panelNextArea.add(buttonNext, "gapbottom 5, gapright 5");
 
-            panelCounter.add(buttonNext, "right, bottom");
+            // MASUKKAN KE PANEL UTAMA
+            panelMain.add(panelCounterArea, "grow");
+            panelMain.add(panelButtons, "grow");
+            panelMain.add(panelNextArea, "grow");
 
-            mainPanel.add(panelCounter, "page1");
-
-            JPanel panelResult = new JPanel(new MigLayout("fill, wrap1", "[grow, center]", "[grow][grow][grow]"));
-
-            // CHANGE: LineBorder → dashed
-            panelResult.setBorder(
-                BorderFactory.createDashedBorder(Color.BLUE, 2, 8, 4, true) // CHANGE
-            );
-
-            JLabel labelInfo = new JLabel("Nilai terakhir Anda adalah");
-            labelInfo.setFont(new Font("Arial", Font.PLAIN, 18));
-
-            // CHANGE: LineBorder → dashed
-            labelInfo.setBorder(
-                BorderFactory.createDashedBorder(Color.GRAY, 1, 6, 3, true) // CHANGE
-            );
-
-            panelResult.add(labelInfo, "center");
-
-            JLabel labelHasil = new JLabel("0");
-            labelHasil.setFont(new Font("Arial", Font.BOLD, 50));
-
-            // CHANGE: LineBorder → dashed
-            labelHasil.setBorder(
-                BorderFactory.createDashedBorder(Color.GRAY, 1, 6, 3, true) // CHANGE
-            );
-
-            panelResult.add(labelHasil, "center");
-
-            JButton buttonBack = new JButton("<");
-            buttonBack.setFont(new Font("Arial", Font.BOLD, 25));
-
-            // CHANGE: LineBorder → dashed
-            buttonBack.setBorder(
-                BorderFactory.createDashedBorder(Color.RED, 2, 8, 4, true) // CHANGE
-            );
-
-            panelResult.add(buttonBack, "left, bottom");
-
-            mainPanel.add(panelResult, "page2");
-
-            buttonNext.addActionListener(e -> {
-                labelHasil.setText(String.valueOf(nilaiCounter));
-                CardLayout cl = (CardLayout) mainPanel.getLayout();
-                cl.show(mainPanel, "page2");
-            });
-
-            buttonBack.addActionListener(e -> {
-                CardLayout cl = (CardLayout) mainPanel.getLayout();
-                cl.show(mainPanel, "page1");
-            });
-
-            JScrollPane scrollPane = new JScrollPane(mainPanel);
+            // SCROLL (sesuai kode Anda sebelumnya)
+            JScrollPane scrollPane = new JScrollPane(panelMain);
             scrollPane.getVerticalScrollBar().setUnitIncrement(10);
             scrollPane.getVerticalScrollBar().putClientProperty("JScrollBar.fastWheelScrolling", true);
-            scrollPane.setOpaque(true);
 
             frame.add(scrollPane);
             frame.pack();
             frame.setLocationRelativeTo(null);
             frame.setVisible(true);
-
         });
     }
 }
