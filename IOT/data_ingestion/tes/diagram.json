@@ -1,0 +1,12 @@
+{
+  "version": 1,
+  "author": "Uri Shaked",
+  "editor": "wokwi",
+  "parts": [
+    { "type": "board-esp32-devkit-c-v4", "id": "esp", "top": 0, "left": -52.76, "attrs": {} },
+    { "type": "wokwi-led", "id": "led1", "top": -61.2, "left": 23, "attrs": { "color": "red" } },
+    { "type": "wokwi-hc-sr04", "id": "ultrasonic1", "top": 59.1, "left": 120.7, "attrs": {} }
+  ],
+  "connections": [ [ "esp:TX", "$serialMonitor:RX", "", [] ], [ "esp:RX", "$serialMonitor:TX", "", [] ] ],
+  "dependencies": {}
+}
