@@ -1,83 +1,45 @@
-#include <WiFi.h>
-#include <PubSubClient.h>
+#include <ESP32Servo.h>
 
-const char* ssid = "NAMA_WIFI";
-const char* password = "PASSWORD_WIFI";
+#define SERVO_PIN 13
+#define IR_PIN 14
 
-const char* mqtt_server = "broker.hivemq.com";
-const char* topic = "polindra/iot/ultrasonik";
+Servo getServo;
 
-// Pin ultrasonik
-#define TRIG 5
-#define ECHO 18
-
-WiFiClient espClient;
-PubSubClient client(espClient);
-
-long readUltrasonic() {
-  digitalWrite(TRIG, LOW);
-  delayMicroseconds(2);
-  digitalWrite(TRIG, HIGH);
-  delayMicroseconds(10);
-  digitalWrite(TRIG, LOW);
-
-  long duration = pulseIn(ECHO, HIGH);
-  long distance = duration * 0.034 / 2;
-  return distance;
-}
-
-void setup_wifi() {
-  delay(10);
-  Serial.println("Connecting to WiFi...");
-  WiFi.begin(ssid, password);
-
-  while (WiFi.status() != WL_CONNECTED) {
-    delay(500);
-    Serial.print(".");
-  }
-
-  Serial.println("\nWiFi connected");
-}
-
-void reconnect() {
-  while (!client.connected()) {
-    Serial.print("Connecting to MQTT...");
-    if (client.connect("ESP32Client")) {
-      Serial.println("connected");
-    } else {
-      Serial.print("Failed, rc=");
-      Serial.println(client.state());
-      delay(2000);
-    }
-  }
-}
+int openPos = 90;
+int closePos = 0;
 
 void setup() {
   Serial.begin(115200);
 
-  pinMode(TRIG, OUTPUT);
-  pinMode(ECHO, INPUT);
+  pinMode(IR_PIN, INPUT);
 
-  setup_wifi();
-  client.setServer(mqtt_server, 1883);
+  getServo.attach(SERVO_PIN);
+  getServo.write(closePos);
+
+  Serial.println("Smart Feeder Ready!");
+
+}
+
+void feed() {
+  Serial.println("Feeding...");
+  getServo.write(openPos);
+  delay(1000);
+  getServo.write(closePos);
+  Serial.println("Done Feeding");
 }
 
 void loop() {
-  if (!client.connected()) {
-    reconnect();
+  int irValue = digitalRead(IR_PIN);
+
+  if (irValue == HIGH){
+    Serial.println("Mangkuk kosong! Memberi pakan...");
+
+    feed();
+
+    delay(2000);
+  } else {
+    Serial.println("Makanan masih ada");
   }
-  client.loop();
 
-  long jarak = readUltrasonic();
-  Serial.print("Jarak: ");
-  Serial.println(jarak);
-
-  // Convert ke string
-  char msg[10];
-  sprintf(msg, "%ld", jarak);
-
-  // Publish ke MQTT
-  client.publish(topic, msg);
-
-  delay(1000);
+  delay(500);
 }
