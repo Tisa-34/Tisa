@@ -53,7 +53,7 @@ public class PanelMenu extends JPanel {
 
         add(new JSeparator(), "growx, gaptop 5, gapbottom 5");
 
-        throw new UnsupportedOperationException("Unimplemented method 'initializeUI'");
+        //throw new UnsupportedOperationException("Unimplemented method 'initializeUI'");
     }
 
     private void buildMenu(List<MenuItem> listDaftarMenuItem){
@@ -85,7 +85,7 @@ public class PanelMenu extends JPanel {
         if (panelDashboard != null) {
             selectMenuItem(panelDashboard);
         }
-        throw new UnsupportedOperationException("Unimplemented method 'selectDefaultMenu'");
+        //throw new UnsupportedOperationException("Unimplemented method 'selectDefaultMenu'");
     }
 
     public void selectMenuItem(PanelMenuItem clickedPanel) {
@@ -100,7 +100,7 @@ public class PanelMenu extends JPanel {
         if (key != null) {
             cardLayout.show(panelKonten, key);
         }
-        throw new UnsupportedOperationException("Unimplemented method 'selectMenuItem'");
+        //throw new UnsupportedOperationException("Unimplemented method 'selectMenuItem'");
     }
     
 }

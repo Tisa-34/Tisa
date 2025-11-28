@@ -8,9 +8,9 @@ import javax.swing.JPanel;
 
 import net.miginfocom.swing.MigLayout;
 
-public class PanelKategori extends JPanel {
+public class PanelRenovasi extends JPanel {
 
-    public PanelKategori() {
+    public PanelRenovasi() {
         initializeUI();
     }
 
@@ -19,11 +19,11 @@ public class PanelKategori extends JPanel {
         setBackground(Color.WHITE);
         setOpaque(true);
 
-        JLabel title = new JLabel("Panel Kategori");
+        JLabel title = new JLabel("Panel Renovasi");
         title.setFont(new Font("Inter", Font.BOLD, 36));
         title.setForeground(new Color(0, 48, 73));
 
-        JLabel info = new JLabel("Deskripsi Panel Kategori");
+        JLabel info = new JLabel("Deskripsi Panel Renovasi dari Renovation App");
         info.setFont(new Font("Inter", Font.PLAIN, 16));
         info.setForeground(new Color(98, 117, 138));
 

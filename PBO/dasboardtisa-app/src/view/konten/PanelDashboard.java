@@ -8,26 +8,29 @@ import javax.swing.JPanel;
 
 import net.miginfocom.swing.MigLayout;
 
-public class PanelKategori extends JPanel {
+public class PanelDashboard extends JPanel{
 
-    public PanelKategori() {
+    public PanelDashboard() {
         initializeUI();
     }
 
     private void initializeUI() {
-        setLayout(new MigLayout("fill, insets 60", "[grow]", "[grow]"));
+        setLayout(new MigLayout("fill, insets 60", "[grow]", "[grow]" ));
         setBackground(Color.WHITE);
         setOpaque(true);
+    
 
-        JLabel title = new JLabel("Panel Kategori");
+        JLabel title = new JLabel("Panel Dasboard Tisa");
         title.setFont(new Font("Inter", Font.BOLD, 36));
         title.setForeground(new Color(0, 48, 73));
 
-        JLabel info = new JLabel("Deskripsi Panel Kategori");
+        JLabel info = new JLabel("Deskripsi Panel Dashboard Tisa");
         info.setFont(new Font("Inter", Font.PLAIN, 16));
         info.setForeground(new Color(98, 117, 138));
 
+
         add(title, "alignx center, wrap 30");
         add(info, "alignx center");
+    
     }
 }
