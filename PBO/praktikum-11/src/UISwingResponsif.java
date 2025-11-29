@@ -67,8 +67,8 @@ public class UISwingResponsif extends JFrame {
     }
 
     private void updateLayoutAndTitle() {
-        Dimension size = getSize(); // ukuran aktual termasuk border
-        Insets insets = getInsets(); // border + title bar
+        Dimension size = getSize();
+        Insets insets = getInsets();
         int innerWidth = size.width - insets.left - insets.right;
         int innerHeight = size.height - insets.top - insets.bottom;
 
@@ -85,7 +85,7 @@ public class UISwingResponsif extends JFrame {
         else if (width <= DESKTOP_SMALL_MAX) return "Desktop Small (992-1200px)";
         else if (width <= DESKTOP_STANDARD_MAX) return "Desktop Standard (1200-1400px)";
         else return "Desktop Large (>1400px)";
-    } // End of getDeviceCategory method (implied)
+    } 
     
     private void rebuildLayout(int width) {
         mainPanel.removeAll();
@@ -107,9 +107,6 @@ public class UISwingResponsif extends JFrame {
             mainPanel.add(panel5, "span 2, growx, wrap");
         }
     
-        // Teks di bawah blok SPLIT_VIEW_MAX:
-        // UI Swing Responsif - Fachrul Pralienika Bani Muhamad,
-        // S.ST., M.Kom.
     
         else if (width <= INTERMEDIATE_VIEW_MAX) {
             mainPanel.add(panel1, "span 2, growx, wrap");

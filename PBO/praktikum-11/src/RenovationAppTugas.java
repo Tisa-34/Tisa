@@ -9,9 +9,15 @@ import com.formdev.flatlaf.FlatLightLaf;
 
 import java.util.Collections;
 
-public class RenovationApp {
+public class RenovationAppTugas {
 
     private static String buttonColor = "background: $Component.accentColor; foreground: #FFFFFF;";
+
+    private static final int COMPACT_VIEW_MAX = 576;
+    private static final int SPLIT_VIEW_MAX = 768;
+    private static final int INTERMEDIATE_VIEW_MAX = 992;
+    private static final int DESKTOP_SMALL_MAX = 1200;
+    private static final int DESKTOP_STANDARD_MAX = 1400;
 
     public static void main(String[] args) {
 

@@ -3,7 +3,11 @@ import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
+
+// MigLayout is required: add miglayout-swing dependency to classpath
 import net.miginfocom.swing.MigLayout;
+
+// FlatLaf (optional). If not available, UIManager will use default L&F.
 import com.formdev.flatlaf.FlatLaf;
 import com.formdev.flatlaf.FlatLightLaf;
 
@@ -15,13 +19,16 @@ public class RenovationApp {
 
     public static void main(String[] args) {
 
+        // Optional: set FlatLaf if available; otherwise fall back silently
         try {
             FlatLaf.setGlobalExtraDefaults(Collections.singletonMap("@accentColor", "#8A2BE2"));
             UIManager.setLookAndFeel(new FlatLightLaf());
         } catch (Exception e) {
+            // fallback to default look and feel if FlatLaf not present
             try {
                 UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
             } catch (Exception ex) {
+                // ignore, use default
             }
         }
 
@@ -39,6 +46,31 @@ public class RenovationApp {
                 "[][grow][]",
                 "[][grow][grow][grow][]"
             ));
+
+            /** Deklarasi Panel Client **/
+            JPanel panelClient = new JPanel(new MigLayout(
+                    "wrap 2",
+                    "[right]10[left]"
+            ));
+            panelClient.setBorder(new TitledBorder("Client"));
+
+            panelClient.add(new JLabel("Client ID:"));
+            panelClient.add(new JLabel("<html><b>101</b></html>"));
+
+            panelClient.add(new JLabel("Name:"));
+            panelClient.add(new JLabel("<html><b>Bapak Alex Gunawan</b></html>"));
+
+            panelClient.add(new JLabel("Phone:"));
+            panelClient.add(new JLabel("<html><b>(+62) 8123456789</b></html>"));
+
+            panelClient.add(new JLabel("Registration No:"));
+            panelClient.add(new JLabel("<html><b>RNV–JKT–AXG–001</b></html>"));
+
+            JButton buttonDetails = new JButton("Details");
+            buttonDetails.putClientProperty("FlatLaf.style", buttonColor);
+            panelClient.add(buttonDetails, "span 2, gapbottom 10, center");
+
+            panelUtama.add(panelClient, "grow");
 
             /** Deklarasi Panel Information **/
             JPanel panelInformation = new JPanel(new MigLayout(
@@ -71,35 +103,7 @@ public class RenovationApp {
             panelInformation.add(new JLabel("Note:"));
             panelInformation.add(new JTextField("Proyek renovasi telah disetujui, siap dimulai"), "span 2");
 
-
-            /** Deklarasi Panel Client **/
-            JPanel panelClient = new JPanel(new MigLayout(
-                    "wrap 2",
-                    "[right]10[left]"
-            ));
-            panelClient.setBorder(new TitledBorder("Client"));
-
-            panelClient.add(new JLabel("Client ID:"));
-            panelClient.add(new JLabel("<html><b>101</b></html>"));
-
-            panelClient.add(new JLabel("Name:"));
-            panelClient.add(new JLabel("<html><b>Bapak Alex Gunawan</b></html>"));
-
-            panelClient.add(new JLabel("Phone:"));
-            panelClient.add(new JLabel("<html><b>(+62) 8123456789</b></html>"));
-
-            panelClient.add(new JLabel("Registration No:"));
-            panelClient.add(new JLabel("<html><b>RNV–JKT–AXG–001</b></html>"));
-
-            JButton buttonDetails = new JButton("Details");
-            buttonDetails.putClientProperty("FlatLaf.style", buttonColor);
-            panelClient.add(buttonDetails, "span 2, center");
-            
-            
-            panelUtama.add(panelClient, "grow");
-            
             panelUtama.add(panelInformation, "grow");
-
 
             /** Deklarasi Panel Additional Information **/
             JPanel panelAdditional = new JPanel(new MigLayout("wrap 3", "[right]10[left,grow,fill][]"));
@@ -171,6 +175,7 @@ public class RenovationApp {
             panelTableProductList.add(new JLabel("Rp 14.249.625"), "gapx 30");
 
             panelProduk.add(panelTableProductList, "grow");
+            // removed duplicate add of panelProduk
 
             /** Deklarasi Panel (Button) Product List **/
             JPanel panelButtonProductList = new JPanel(new MigLayout("wrap 1"));
@@ -260,6 +265,7 @@ public class RenovationApp {
             scrollPane.putClientProperty("JScrollPane.fastWheelScrolling", true);
             scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 
+            
             frame.add(scrollPane);
             frame.pack();
             frame.setLocationRelativeTo(null);
@@ -278,6 +284,7 @@ public class RenovationApp {
         });
     }
 
+    /** Deklarasi method installModernScrollChaining(frame, scrollPane) - dipindahkan di luar main **/
     private static void installModernScrollChaining(JFrame frame, JScrollPane mainScrollPane) {
         final double[] accumulatedDelta = {0.0};
 
@@ -289,7 +296,7 @@ public class RenovationApp {
             Component source = mwe.getComponent();
             if (!SwingUtilities.isDescendingFrom(source, frame)) return;
 
-
+            // --- CARI INNER JScrollPane (kecuali mainScrollPane) ---
             JScrollPane inner = null;
             for (Component c = source; c != null; c = c.getParent()) {
                 if (c instanceof JScrollPane) {
@@ -301,6 +308,7 @@ public class RenovationApp {
                 }
             }
 
+            // Jika tidak ada JScrollPane sama sekali → langsung ke main (misal JLabel, JTextField, dll.)
             if (inner == null) {
                 return;
             }
@@ -311,9 +319,11 @@ public class RenovationApp {
 
             boolean scrollDown = rotation > 0;
             boolean scrollUp   = rotation < 0;
+            // --- KUNCI: PERIKSA APAKAH MASIH BISA DI–SCROLL KE ARAH TERSEBUT ---
             boolean canScrollFurther = false;
 
             if (vbar != null && vbar.isVisible()) {
+                // Ada scrollbar → cek apakah masih ada ruang
                 int value = vbar.getValue();
                 int extent = vbar.getModel().getExtent();
                 int max = vbar.getMaximum();
@@ -323,12 +333,18 @@ public class RenovationApp {
 
                 canScrollFurther = (scrollDown && !atBottom) || (scrollUp && !atTop);
             } else {
+                // TIDAK ADA SCROLLBAR (data pendek) → anggap SUDAH MENTOK di kedua arah
+                // Artinya: langsung boleh propagasi ke frame
                 canScrollFurther = false;
             }
+
+            // Jika MASIH BISA scroll di dalam tabel → biarkan Swing yang tangani
             if (canScrollFurther) {
                 accumulatedDelta[0] = 0.0;
                 return;
             }
+
+            // Jika TIDAK BISA scroll lagi (mentok atau tidak ada scroll) → propagasi ke frame
             accumulatedDelta[0] += rotation;
             if (Math.abs(accumulatedDelta[0]) < 0.7) return;
 

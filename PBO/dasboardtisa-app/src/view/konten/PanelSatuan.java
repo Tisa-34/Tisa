@@ -19,7 +19,7 @@ public class PanelSatuan extends JPanel {
         setBackground(Color.WHITE);
         setOpaque(true);
 
-        JLabel title = new JLabel("Panel Satuan");
+        JLabel title = new JLabel("Panel Satuan Tisa");
         title.setFont(new Font("Inter", Font.BOLD, 36));
         title.setForeground(new Color(0, 48, 73));
 

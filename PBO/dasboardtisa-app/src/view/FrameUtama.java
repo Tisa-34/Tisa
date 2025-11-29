@@ -68,7 +68,7 @@ public class FrameUtama extends JFrame {
         menuProduk.addSubMenuItem(new MenuItem("Kategori Produk", "kategori"));
         menuMasterData.addSubMenuItem(new MenuItem("Supplier", "supplier"));
         menuMasterData.addSubMenuItem(new MenuItem("Satuan", "satuan"));
-        menuRenovationApp.addSubMenuItem(new MenuItem("renovasi dulu"));
+        menuRenovationApp.addSubMenuItem(new MenuItem("renovasi dulu", "renov"));
 
         listDaftarMenuItem.add(menuDashboard);
         listDaftarMenuItem.add(menuProduk);
